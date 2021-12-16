@@ -1,4 +1,4 @@
-# encase_challenge
+# Just encase design challenge
 
 ### Requirements - Remote environmental monitoring solution. 
 
@@ -12,10 +12,10 @@ Challengers must build projects for a hazardous environment, such as extreme col
 * Must be weather proof and make use of a Hammond Manufacturing Enclosure
 * Must demonstrate the weatherproofness of the enclosure
 * Potential submergence testing prior to deployment
-* Without cable glands, 100% sealed test
-* With cable glands and sealed stubs, for sealed test
-* Must be capable of being battery or mains powered
-* Must provide the defined monitoring parameters - for water and environment
+    * Without cable glands, 100% sealed test
+    * With cable glands and sealed stubs, for sealed test
+    * Must be capable of being battery or mains powered
+* Must provide the defined monitoring parameters - for water and environment (see below)
 * Must use Lora connectivity, no gateway but point to point. 
 * Must be built around the Arduino MKR 1300 (see above requirement)
 * Needs to use a 3.3v input for the Arduino 
@@ -48,12 +48,10 @@ Must be capable of monitoring and providing absolute values for:
 
 * Ambient light level measurement, LUX
 * Oxidisation Reduction Potential (ORP) if i can find a vendor with any stock that isnt £140
-
-
 * Air temperature
 * Humidity
 
-or 
+#### or 
 
 * Air temperature + Humidity in a single package, 
 * Air pressure 
