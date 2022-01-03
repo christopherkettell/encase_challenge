@@ -1,0 +1,392 @@
+[
+    {
+        "id": "9a63abc8bf548d52",
+        "type": "tab",
+        "label": "BME280 end to end",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9a432e9a0a0a43e1",
+        "type": "serial in",
+        "z": "9a63abc8bf548d52",
+        "name": "LoRA Reciever Bridge to Pi",
+        "serial": "52e690c089097413",
+        "x": 180,
+        "y": 400,
+        "wires": [
+            [
+                "eec124d3bdf3987b",
+                "5f9753b43272a6eb"
+            ]
+        ]
+    },
+    {
+        "id": "eec124d3bdf3987b",
+        "type": "debug",
+        "z": "9a63abc8bf548d52",
+        "name": "Debugging received packets",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 610,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "c0f2fc11b1525619",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "Pressure Write to Pi Influx",
+        "measurement": "pressure",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1110,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "57bf657a5a85445a",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "TEMP Write to Pi Influx",
+        "measurement": "temp",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1100,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "5f9753b43272a6eb",
+        "type": "csv",
+        "z": "9a63abc8bf548d52",
+        "name": "",
+        "sep": ",",
+        "hdrin": "",
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "temp,pressure,humidity,tds,ph,ehumid,etemp,light,RSSI",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 540,
+        "y": 220,
+        "wires": [
+            [
+                "6c5bd3e935834bd2"
+            ]
+        ]
+    },
+    {
+        "id": "6c5bd3e935834bd2",
+        "type": "split",
+        "z": "9a63abc8bf548d52",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "x": 700,
+        "y": 220,
+        "wires": [
+            [
+                "976274677e8b515f"
+            ]
+        ]
+    },
+    {
+        "id": "976274677e8b515f",
+        "type": "switch",
+        "z": "9a63abc8bf548d52",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "temp",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "pressure",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "humidity",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "tds",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "ph",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "ehumid",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "etemp",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "light",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "RSSI",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 9,
+        "x": 860,
+        "y": 220,
+        "wires": [
+            [
+                "57bf657a5a85445a",
+                "6316852894b77a0d"
+            ],
+            [
+                "c0f2fc11b1525619",
+                "6316852894b77a0d"
+            ],
+            [
+                "b523ceb37f789015",
+                "6316852894b77a0d"
+            ],
+            [
+                "0edbd3eca27c989d",
+                "6316852894b77a0d"
+            ],
+            [
+                "9f820cd854dc0a34",
+                "6316852894b77a0d"
+            ],
+            [
+                "6316852894b77a0d",
+                "754a152b58450677"
+            ],
+            [
+                "6316852894b77a0d",
+                "0cac3dc02c126594"
+            ],
+            [
+                "c80d4374754128ae"
+            ],
+            [
+                "6316852894b77a0d",
+                "76cfa3e059b264d4"
+            ]
+        ]
+    },
+    {
+        "id": "b523ceb37f789015",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "humid Write to Pi Influx",
+        "measurement": "humidity",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1100,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "0edbd3eca27c989d",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "humid Write to Pi Influx",
+        "measurement": "tds",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1100,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "9f820cd854dc0a34",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "ph Write to Pi Influx",
+        "measurement": "ph",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1090,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "76cfa3e059b264d4",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "rssi Write to Pi Influx",
+        "measurement": "rssi",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1060,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "6316852894b77a0d",
+        "type": "debug",
+        "z": "9a63abc8bf548d52",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "754a152b58450677",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "enc_humid Write to Pi Influx",
+        "measurement": "ehumid",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1140,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "0cac3dc02c126594",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "enc_temp Write to Pi Influx",
+        "measurement": "etemp",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1120,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "c80d4374754128ae",
+        "type": "influxdb out",
+        "z": "9a63abc8bf548d52",
+        "influxdb": "b25ff12e164a2d6b",
+        "name": "enc_temp Write to Pi Influx",
+        "measurement": "light",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "pond",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 1120,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "52e690c089097413",
+        "type": "serial-port",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "b25ff12e164a2d6b",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "pond",
+        "name": "pond-test",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.8-flux",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    }
+]
